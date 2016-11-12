@@ -6,6 +6,7 @@
 
 // Our project headers
 #include "CipherMode.hpp"
+#include "CipherType.hpp"
 #include "TransformChar.hpp"
 #include "ProcessCommandLine.hpp"
 #include "CaesarCipher.hpp"
@@ -17,7 +18,7 @@ int main(int argc, char* argv[])
   const std::vector<std::string> cmdLineArgs {argv, argv+argc};
 
   // Options that might be set by the command-line arguments
-  ProgramSettings settings { false, false, "", "", "", CipherMode::Encrypt };
+  ProgramSettings settings { false, false, "", "", "", CipherMode::Encrypt, CipherType::Caesar };
 
   // Process command line arguments
   bool cmdLineStatus { processCommandLine(cmdLineArgs, settings) };
@@ -41,6 +42,8 @@ int main(int argc, char* argv[])
       << "                   Stdin will be used if not supplied\n\n"
       << "  -o FILE          Write processed text to FILE\n"
       << "                   Stdout will be used if not supplied\n\n"
+      << "  -c CIPHER        Specify the cipher to be used to perform the encryption/decryption\n"
+      << "                   CIPHER can either be caesar or playfair - caesar is the default\n\n"
       << "  -k KEY           Specify the cipher KEY\n"
       << "                   A null key, i.e. no encryption, is used if not supplied\n\n"
       << "  --encrypt        Will use the cipher to encrypt the input text (default behaviour)\n\n"
@@ -88,34 +91,48 @@ int main(int argc, char* argv[])
     }
   }
 
-  // We have the key as a string, but the Caesar cipher needs an unsigned long, so we first need to convert it
-  // We default to having a key of 0, i.e. no encryption, if no key was provided on the command line
-  size_t caesarKey {0};
-  if ( ! settings.cipherKey.empty() ) {
-    // Before doing the conversion we should check that the string contains a
-    // valid positive integer.
-    // Here we do that by looping through each character and checking that it
-    // is a digit. What is rather hard to check is whether the number is too
-    // large to be represented by an unsigned long, so we've omitted that for
-    // the time being.
-    // (Since the conversion function std::stoul will throw an exception if the
-    // string does not represent a valid unsigned long, we could check for and
-    // handled that instead but we only cover exceptions very briefly on the
-    // final day of this course - they are a very complex area of C++ that
-    // could take an entire course on their own!)
-    for ( const auto& elem : settings.cipherKey ) {
-      if ( ! std::isdigit(elem) ) {
-	std::cerr << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
-	          << "        the supplied key (" << settings.cipherKey << ") could not be successfully converted" << std::endl;
-	return 1;
-      }
-    }
-    caesarKey = std::stoul(settings.cipherKey);
-  }
+  std::string outputText {""};
 
-  // Run the Caesar cipher (using the specified key and encrypt/decrypt flag) on the input text
-  CaesarCipher cipher { caesarKey };
-  std::string outputText { cipher.applyCipher( inputText, settings.cipherMode ) };
+  switch ( settings.cipherType ) {
+    case CipherType::Caesar :
+      {
+	// We have the key as a string, but the Caesar cipher needs an unsigned long, so we first need to convert it
+	// We default to having a key of 0, i.e. no encryption, if no key was provided on the command line
+	size_t caesarKey {0};
+	if ( ! settings.cipherKey.empty() ) {
+	  // Before doing the conversion we should check that the string contains a
+	  // valid positive integer.
+	  // Here we do that by looping through each character and checking that it
+	  // is a digit. What is rather hard to check is whether the number is too
+	  // large to be represented by an unsigned long, so we've omitted that for
+	  // the time being.
+	  // (Since the conversion function std::stoul will throw an exception if the
+	  // string does not represent a valid unsigned long, we could check for and
+	  // handled that instead but we only cover exceptions very briefly on the
+	  // final day of this course - they are a very complex area of C++ that
+	  // could take an entire course on their own!)
+	  for ( const auto& elem : settings.cipherKey ) {
+	    if ( ! std::isdigit(elem) ) {
+	      std::cerr << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
+		<< "        the supplied key (" << settings.cipherKey << ") could not be successfully converted" << std::endl;
+	      return 1;
+	    }
+	  }
+	  caesarKey = std::stoul(settings.cipherKey);
+	}
+
+	// Run the Caesar cipher (using the specified key and encrypt/decrypt flag) on the input text
+	CaesarCipher cipher { caesarKey };
+	outputText = cipher.applyCipher( inputText, settings.cipherMode );
+
+	break;
+      }
+    case CipherType::Playfair :
+      {
+	std::cerr << "[warning] Playfair cipher not yet implemented" << std::endl;
+	outputText = inputText;
+      }
+  }
 
   // Output the transliterated text
   if (!settings.outputFile.empty()) {
