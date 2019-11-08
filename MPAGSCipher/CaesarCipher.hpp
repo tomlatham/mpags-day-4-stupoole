@@ -17,7 +17,8 @@
  * \class CaesarCipher
  * \brief Encrypt or decrypt text using the Caesar cipher with the given key
  */
-class CaesarCipher {
+class CaesarCipher
+{
   public:
     /**
      * Create a new CaesarCipher with the given key

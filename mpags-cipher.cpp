@@ -12,6 +12,7 @@
 #include "CaesarCipher.hpp"
   
 // Main function of the mpags-cipher program
+
 int main(int argc, char* argv[])
 {
   // Convert the command-line arguments into a more easily usable form
@@ -66,7 +67,8 @@ int main(int argc, char* argv[])
   std::string inputText {""};
 
   // Read in user input from stdin/file
-  if (!settings.inputFile.empty()) {
+  if (!settings.inputFile.empty())
+  {
 
     // Open the file and check that we can read from it
     std::ifstream inputStream(settings.inputFile);
@@ -93,7 +95,8 @@ int main(int argc, char* argv[])
 
   std::string outputText {""};
 
-  switch ( settings.cipherType ) {
+  switch ( settings.cipherType )
+  {
     case CipherType::Caesar :
       {
 	// Run the Caesar cipher (using the specified key and encrypt/decrypt flag) on the input text
@@ -110,7 +113,8 @@ int main(int argc, char* argv[])
   }
 
   // Output the transliterated text
-  if (!settings.outputFile.empty()) {
+  if (!settings.outputFile.empty())
+  {
 
     // Open the file and check that we can write to it
     std::ofstream outputStream(settings.outputFile);
