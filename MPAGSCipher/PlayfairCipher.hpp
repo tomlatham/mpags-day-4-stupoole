@@ -9,6 +9,10 @@
 #include <vector>
 #include <iostream>
 #include "CipherMode.hpp"
+#include <iterator>
+#include <algorithm>
+#include <map>
+
 
 class PlayfairCipher {
 public:
@@ -37,14 +41,13 @@ private:
     /**
      * \brief Alphabet as a vector of chars for use in generating the key. Note that the J is missing.
      */
-    const std::vector<char> alphabet_ = {'A', 'B', 'C', 'D', 'E', 'F', 'G',
-                                         'H', 'I', 'K', 'L', 'M', 'N', 'O',
-                                         'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-                                         'X', 'Y', 'Z'};
-    /**
+    const std::string alphabet_ = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    /*
      * \brief 5x5 grid string
      */
     std::string key_ = "";
+    using MapChar2Coord_ = std::map<char, std::pair<int, int>>;
+    using MapCoord2Char_ = std::map<std::pair<int, int>, char>;
 };
 
 #endif // MPAGSCIPHER_PLAYFAIRCIPHER_HPP
