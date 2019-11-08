@@ -27,6 +27,7 @@ void PlayfairCipher::setKey(const std::string &key) {
     // Converts I to J
     std::transform(key_.begin(), key_.end(), key_.begin(),
                    [](char c) { return (c == 'J') ? 'I' : c; });
+
     // removes duplicated letters
     key_.erase(std::remove_if(key_.begin(), key_.end(),
                               [&used_letters](char c) {
@@ -40,8 +41,8 @@ void PlayfairCipher::setKey(const std::string &key) {
                               }), key_.end());
 
     // generates coordinate maps from coordinate to char and visa versa
-    for (size_t i {0}; i < key_.size(); i++){
-        auto coords = std::make_pair( i%5, i/5);
+    for (size_t i{0}; i < key_.size(); i++) {
+        auto coords = std::make_pair(i % 5, i / 5);
         char c = key_[i];
         char2Coord[c] = coords;
         coord2Char[coords] = c;
