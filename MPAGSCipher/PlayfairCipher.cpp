@@ -4,29 +4,25 @@
 
 #include "PlayfairCipher.hpp"
 
-PlayfairCipher::PlayfairCipher(const std::string key) : key_{PlayfairCipher::setKey(key)} {
-
+PlayfairCipher::PlayfairCipher(const std::string &key) {
+    PlayfairCipher::setKey(key);
 }
 
-std::string PlayfairCipher::setKey(const std::string &key) {
-  std::string key_string = key;
-//
-//  for (char& c : key)
-//  {
-//    if( c == 'J')
-//    {
-//      c = 'I';
-//    }
-//    if (key_string.find(c) != std::string::npos)
-//    {
-//      key_string += c;
-//    }
-//  }
 
-
-  return key_string;
+void PlayfairCipher::setKey(const std::string &key) {
+    key_ = key;
 }
-std::string PlayfairCipher::applyCipher(std::string &input_string) {
-  std::cout << input_string << std::endl;
-  return input_string;
+
+
+std::string PlayfairCipher::applyCipher(std::string &input_string, CipherMode cipherMode) const {
+    if (cipherMode == CipherMode::Encrypt) {
+        std::cout << input_string << std::endl;
+    } else if (cipherMode == CipherMode::Decrypt) {
+        std::cout << input_string << std::endl;
+    };
+    return input_string;
+}
+
+std::string foo(std::string string) {
+    return string;
 }

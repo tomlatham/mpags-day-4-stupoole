@@ -11,8 +11,8 @@
  * \brief Enumeration to define the ciphers that can be used
  */
 enum class CipherType {
-  Caesar,   ///< The Caesar cipher
-  Playfair  ///< The Playfair cipher
+    Caesar,   ///< The Caesar cipher
+    Playfair  ///< The Playfair cipher
 };
 
 #endif // MPAGSCIPHER_CIPHERTYPE_HPP 

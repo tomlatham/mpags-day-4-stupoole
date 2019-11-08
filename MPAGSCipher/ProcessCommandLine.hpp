@@ -19,13 +19,13 @@
  * \brief Holds the settings of the program that can be modified by command-line arguments
  */
 struct ProgramSettings {
-  bool helpRequested;     ///< Indicates the presence of the help flag in the arguments
-  bool versionRequested;  ///< Indicates the presence of the version flag in the arguments
-  std::string inputFile;  ///< Name of the input file
-  std::string outputFile; ///< Name of the output file
-  std::string cipherKey;  ///< Key to be used in encrypting/decrypting routine
-  CipherMode cipherMode;  ///< Flag indicating the mode in which the cipher should run (i.e. encrypt or decrypt)
-  CipherType cipherType;  ///< Flag to indicate which cipher to use (e.g. Caesar, Playfair, etc.)
+    bool helpRequested;     ///< Indicates the presence of the help flag in the arguments
+    bool versionRequested;  ///< Indicates the presence of the version flag in the arguments
+    std::string inputFile;  ///< Name of the input file
+    std::string outputFile; ///< Name of the output file
+    std::string cipherKey;  ///< Key to be used in encrypting/decrypting routine
+    CipherMode cipherMode;  ///< Flag indicating the mode in which the cipher should run (i.e. encrypt or decrypt)
+    CipherType cipherType;  ///< Flag to indicate which cipher to use (e.g. Caesar, Playfair, etc.)
 };
 
 /**
@@ -35,6 +35,6 @@ struct ProgramSettings {
  * \param settings the program settings to be modified based upon the arguments received
  * \return true if the arguments could be successfully parsed, false otherwise
  */
-bool processCommandLine(const std::vector<std::string>& args, ProgramSettings& settings);
+bool processCommandLine(const std::vector<std::string> &args, ProgramSettings &settings);
 
 #endif // MPAGSCIPHER_PROCESSCOMMANDLINE_HPP 

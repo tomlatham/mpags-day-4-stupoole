@@ -8,21 +8,43 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "CipherMode.hpp"
 
-class PlayfairCipher
-{
+class PlayfairCipher {
 public:
+    /**
+     * \brief This class definition takes a string and generates a key from this
+     * string
+     * \param key is a keys sting equivalent to a 5x5 grid
+     */
+    explicit PlayfairCipher(const std::string &key);
 
-  explicit PlayfairCipher(std::string key);
-  std::string setKey(const std::string& key);
-  std::string applyCipher(std::string &input_string);
+    /**
+     * \brief Applies the cipher to the code with the option
+     * \param input_string is the string to be encrypted
+     * \return
+     */
+    std::string applyCipher(std::string &input_string, CipherMode cipherMode) const;
 
 private:
-  const std::vector<char> alphabet_ = {'A', 'B', 'C', 'D', 'E', 'F', 'G',
-                                       'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-                                       'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-                                       'X', 'Y', 'Z'};
-  std::string key_ = "";
+    /**
+   * \brief
+   * \param key
+   * \returns returns 5x5 key grid
+   */
+    void setKey(const std::string &key);
+
+    /**
+     * \brief Alphabet as a vector of chars for use in generating the key. Note that the J is missing.
+     */
+    const std::vector<char> alphabet_ = {'A', 'B', 'C', 'D', 'E', 'F', 'G',
+                                         'H', 'I', 'K', 'L', 'M', 'N', 'O',
+                                         'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+                                         'X', 'Y', 'Z'};
+    /**
+     * \brief 5x5 grid string
+     */
+    std::string key_ = "";
 };
 
 #endif // MPAGSCIPHER_PLAYFAIRCIPHER_HPP

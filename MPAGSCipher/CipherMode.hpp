@@ -11,8 +11,8 @@
  * \brief Enumeration to define the modes in which the ciphers can operate
  */
 enum class CipherMode {
-  Encrypt, ///< Apply cipher in encrypt mode
-  Decrypt  ///< Apply cipher in decrypt mode
+    Encrypt, ///< Apply cipher in encrypt mode
+    Decrypt  ///< Apply cipher in decrypt mode
 };
 
 #endif // MPAGSCIPHER_CIPHERMODE_HPP 
