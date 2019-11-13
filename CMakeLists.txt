@@ -10,9 +10,9 @@ project(MPAGSCipher VERSION 0.3.0)
 #   are used. This can also be done by removing the 'set' command and
 #   running make as 'make VERBOSE=1'.
 set(CMAKE_VERBOSE_MAKEFILE ON)
-
-# - Don't allow C++ Compiler Vendor Extensions
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD 17)
+# - allow C++ Compiler Vendor Extensions
+set(CMAKE_CXX_EXTENSIONS ON)
 
 # - Use our standard set of flags
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wfatal-errors -Wshadow -pedantic")

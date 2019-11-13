@@ -40,10 +40,11 @@ void PlayfairCipher::setKey(const std::string &key) {
 
     // generates coordinate maps from coordinate to char and visa versa
     for (size_t i{0}; i < key_.size(); i++) {
-        auto coords = std::make_pair(i % 5, i / 5);
+        auto coords = std::make_tuple(i % 5, i / 5);
         char c = key_[i];
         char2Coord_[c] = coords;
         coord2Char_[coords] = c;
+
     }
 
     std::cout << key_ << "\n";
@@ -53,7 +54,7 @@ void PlayfairCipher::setKey(const std::string &key) {
 std::string PlayfairCipher::applyCipher(const std::string &input_string, const CipherMode cipherMode) const {
     std::string working_string = input_string;
     std::string output_string;
-    std::cout << "working string: " << working_string << std::endl;
+
 
     if (cipherMode == CipherMode::Encrypt) {
         for (size_t i = 0; i < working_string.length(); i += 2) {
@@ -81,12 +82,8 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
                 }
             }
             // extracts x and y coords for input characters in the key
-            auto first_coord = char2Coord_.find(working_string[i])->second;
-            auto second_coord = char2Coord_.find(working_string[i + 1])->second;
-            int first_x = first_coord.first;
-            int first_y = first_coord.second;
-            int second_x = second_coord.first;
-            int second_y = second_coord.second;
+            auto [first_x, first_y] = char2Coord_.at(working_string[i]);
+            auto [second_x, second_y] = char2Coord_.at(working_string[i + 1]);
 
             if (first_x == second_x) {
                 first_y = (first_y + 1) % 5;
@@ -97,10 +94,9 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
             } else {
                 std::swap(first_x, second_x);
             }
-            char first_char = (coord2Char_.find(std::make_pair(first_x, first_y)))->second;
-            char second_char = (coord2Char_.find(std::make_pair(second_x, second_y)))->second;
-            output_string += first_char;
-            output_string += second_char;
+
+            output_string += coord2Char_.at(std::make_tuple(first_x, first_y));
+            output_string += coord2Char_.at(std::make_tuple(second_x, second_y));
 
         };
         std::cout << "input : " << input_string << "\noutput: " << output_string << std::endl;

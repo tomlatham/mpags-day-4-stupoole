@@ -12,6 +12,8 @@
 #include <iterator>
 #include <algorithm>
 #include <map>
+#include <tuple>
+
 
 
 class PlayfairCipher {
@@ -49,8 +51,9 @@ private:
 
     // I would much rather use a tuple. A tuple would work both ways and would allow quick assignment to x and y from
     // char and visa versa
-    using MapChar2Coord_ = std::map<char, std::pair<int, int>>;
-    using MapCoord2Char_ = std::map<std::pair<int, int>, char>;
+//    typedef key_map_ = tuple<char, int, int>;
+    using MapChar2Coord_ = std::map<char, std::tuple<int, int>>;
+    using MapCoord2Char_ = std::map<std::tuple<int, int>, char>;
     MapChar2Coord_ char2Coord_;
     MapCoord2Char_ coord2Char_;
 };
