@@ -46,7 +46,7 @@ void PlayfairCipher::setKey(const std::string &key) {
         coord2Char_[coords] = c;
     }
 
-    std::cout << key_ << "\n";
+//    std::cout << key_ << "\n";
 
 }
 
