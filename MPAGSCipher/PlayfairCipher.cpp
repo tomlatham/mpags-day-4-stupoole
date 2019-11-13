@@ -82,8 +82,8 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
             }
 
             // extracts x and y coords for input characters in the key
-            auto first_coord = char2Coord_.find(working_string[i])->second;
-            auto second_coord = char2Coord_.find(working_string[i + 1])->second;
+            auto first_coord = char2Coord_.at(working_string[i]);
+            auto second_coord = char2Coord_.at(working_string[i + 1]);
             int first_x = first_coord.first;
             int first_y = first_coord.second;
             int second_x = second_coord.first;
@@ -101,10 +101,11 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
             }
 
             // appends the two substitution characters to output array
-            output_string += coord2Char_.find(std::make_pair(first_x, first_y))->second;
-            output_string += coord2Char_.find(std::make_pair(second_x, second_y))->second;
+            output_string += coord2Char_.at(std::make_pair(first_x, first_y));
+            output_string += coord2Char_.at(std::make_pair(second_x, second_y));
 
         };
+//        std::cout << "input:  " << input_string << "\noutput: " << output_string << std::endl;
 
     } else if (cipherMode == CipherMode::Decrypt) {
         std::cout << "Decrypt not yet implemented" << std::endl;
