@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
             break;
         }
         case CipherType::Playfair : {
-            std::cerr << "[warning] Playfair cipher not yet implemented" << std::endl;
+            std::cerr << "[warning] Playfair cipher decryption not yet implemented" << std::endl;
             PlayfairCipher cipher{settings.cipherKey};
             outputText = cipher.applyCipher(inputText, settings.cipherMode);
             break;

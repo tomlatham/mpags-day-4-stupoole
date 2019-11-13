@@ -51,16 +51,21 @@ void PlayfairCipher::setKey(const std::string &key) {
 }
 
 std::string PlayfairCipher::applyCipher(const std::string &input_string, const CipherMode cipherMode) const {
-
     std::string working_string = input_string;
     std::string output_string;
+    std::cout << "working string: " << working_string << std::endl;
 
     if (cipherMode == CipherMode::Encrypt) {
         for (size_t i = 0; i < working_string.length(); i += 2) {
             // Appends Z if the string is odd in length in the last loop
             if (i + 1 >= working_string.length()) {
-                working_string += 'Z';
+                if (working_string[i] == 'Z') {
+                    working_string += 'X';
+                } else {
+                    working_string += 'Z';
+                }
             }
+
             // Swaps J for I before checking for duplicates
             if (working_string[i] == 'J') {
                 working_string[i] = 'I';
@@ -87,7 +92,6 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
                 first_y = (first_y + 1) % 5;
                 second_y = (second_y + 1) % 5;
             } else if (first_y == second_y) {
-                std::cout << first_y << second_y << std::endl;
                 first_x = (first_x + 1) % 5;
                 second_x = (second_x + 1) % 5;
             } else {
@@ -100,8 +104,10 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
 
         };
         std::cout << "input : " << input_string << "\noutput: " << output_string << std::endl;
+
     } else if (cipherMode == CipherMode::Decrypt) {
         std::cout << "Decrypt not yet implemented" << std::endl;
+        // TODO:  add decryption to playfair cipher
     };
     return output_string;
 }
