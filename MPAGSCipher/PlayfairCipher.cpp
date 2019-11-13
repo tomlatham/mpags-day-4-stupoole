@@ -14,8 +14,6 @@ void PlayfairCipher::setKey(const std::string &key) {
     // std::string string = key + alphabet_;
     key_ = key + alphabet_;
     std::string used_letters;
-    MapChar2Coord_ char2Coord;
-    MapCoord2Char_ coord2Char;
 
     // Removes non alpha characters
     key_.erase(std::remove_if(key_.begin(), key_.end(), [](char c) { return !isalpha(c); }),
@@ -44,23 +42,76 @@ void PlayfairCipher::setKey(const std::string &key) {
     for (size_t i{0}; i < key_.size(); i++) {
         auto coords = std::make_pair(i % 5, i / 5);
         char c = key_[i];
-        char2Coord[c] = coords;
-        coord2Char[coords] = c;
+        char2Coord_[c] = coords;
+        coord2Char_[coords] = c;
     }
 
     std::cout << key_ << "\n";
 
 }
 
+std::string PlayfairCipher::applyCipher(const std::string &input_string, const CipherMode cipherMode) const {
 
-std::string PlayfairCipher::applyCipher(std::string &input_string, CipherMode cipherMode) const {
+    std::string working_string = input_string;
+    std::string output_string;
+
     if (cipherMode == CipherMode::Encrypt) {
-        std::cout << input_string << std::endl;
+        for (size_t i = 0; i < working_string.length(); i += 2) {
+            // Appends Z if the string is odd in length in the last loop
+            if (i + 1 >= working_string.length()) {
+                working_string += 'Z';
+            }
+            // Swaps J for I before checking for duplicates
+            if (working_string[i] == 'J') {
+                working_string[i] = 'I';
+            } else if (working_string[i + 1] == 'J') {
+                working_string[i + 1] = 'I';
+            }
+            // Checks for duplicate letters and inserts appropriately
+            if (working_string[i] == working_string[i + 1]) {
+                if (working_string[i] == 'X') {
+                    working_string.insert(i + 1, "Q");
+                } else {
+                    working_string.insert(i + 1, "X");
+                }
+            }
+            // extracts x and y coords for input characters in the key
+            auto first_coord = char2Coord_.find(working_string[i])->second;
+            auto second_coord = char2Coord_.find(working_string[i + 1])->second;
+            int first_x = first_coord.first;
+            int first_y = first_coord.second;
+            int second_x = second_coord.first;
+            int second_y = second_coord.second;
+
+            if (first_x == second_x) {
+                first_y = (first_y + 1) % 5;
+                second_y = (second_y + 1) % 5;
+            } else if (first_y == second_y) {
+                std::cout << first_y << second_y << std::endl;
+                first_x = (first_x + 1) % 5;
+                second_x = (second_x + 1) % 5;
+            } else {
+                std::swap(first_x, second_x);
+            }
+            char first_char = (coord2Char_.find(std::make_pair(first_x, first_y)))->second;
+            char second_char = (coord2Char_.find(std::make_pair(second_x, second_y)))->second;
+            output_string += first_char;
+            output_string += second_char;
+
+        };
+        std::cout << "input : " << input_string << "\noutput: " << output_string << std::endl;
     } else if (cipherMode == CipherMode::Decrypt) {
-        std::cout << input_string << std::endl;
+        std::cout << "Decrypt not yet implemented" << std::endl;
     };
-    return input_string;
+    return output_string;
 }
+
+// The following code should split the input text into pairs, loop through the pairs and, if there are repeats,
+// should split the repeats by inserting a X unless it is a repeated x and then should use Q?
+// Next, the loop should find the positions of these two characters in the key and apply the three swapping rules
+// (if same row, pick char to right in map, if same column swap with char below in map, and if not, then form a
+// rectangle with two chars as corners.  swap the characters with the other corners (horizontally?).
+
 
 std::string foo(std::string string) {
     return string;
