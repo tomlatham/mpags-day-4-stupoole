@@ -53,7 +53,6 @@ void PlayfairCipher::setKey(const std::string &key) {
 std::string PlayfairCipher::applyCipher(const std::string &input_string, const CipherMode cipherMode) const {
     std::string working_string = input_string;
     std::string output_string;
-    std::cout << "working string: " << working_string << std::endl;
 
     if (cipherMode == CipherMode::Encrypt) {
         for (size_t i = 0; i < working_string.length(); i += 2) {
@@ -72,6 +71,7 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
             } else if (working_string[i + 1] == 'J') {
                 working_string[i + 1] = 'I';
             }
+
             // Checks for duplicate letters and inserts appropriately
             if (working_string[i] == working_string[i + 1]) {
                 if (working_string[i] == 'X') {
@@ -80,6 +80,7 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
                     working_string.insert(i + 1, "X");
                 }
             }
+
             // extracts x and y coords for input characters in the key
             auto first_coord = char2Coord_.find(working_string[i])->second;
             auto second_coord = char2Coord_.find(working_string[i + 1])->second;
@@ -88,6 +89,7 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
             int second_x = second_coord.first;
             int second_y = second_coord.second;
 
+            // Finds the correct coordinates for the substitution
             if (first_x == second_x) {
                 first_y = (first_y + 1) % 5;
                 second_y = (second_y + 1) % 5;
@@ -97,13 +99,12 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
             } else {
                 std::swap(first_x, second_x);
             }
-            char first_char = (coord2Char_.find(std::make_pair(first_x, first_y)))->second;
-            char second_char = (coord2Char_.find(std::make_pair(second_x, second_y)))->second;
-            output_string += first_char;
-            output_string += second_char;
+
+            // appends the two substitution characters to output array
+            output_string += coord2Char_.find(std::make_pair(first_x, first_y))->second;
+            output_string += coord2Char_.find(std::make_pair(second_x, second_y))->second;
 
         };
-        std::cout << "input : " << input_string << "\noutput: " << output_string << std::endl;
 
     } else if (cipherMode == CipherMode::Decrypt) {
         std::cout << "Decrypt not yet implemented" << std::endl;
