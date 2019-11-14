@@ -4,16 +4,19 @@
 
 
 #include "PlayfairCipher.hpp"
+#include <iostream>
+#include <string>
+#include <algorithm>
 
 PlayfairCipher::PlayfairCipher(const std::string &key) {
-    PlayfairCipher::setKey(key);
+    this->setKey(key);
 }
 
 
 void PlayfairCipher::setKey(const std::string &key) {
     // std::string string = key + alphabet_;
     key_ = key + alphabet_;
-    std::string used_letters;
+
 
     // Removes non alpha characters
     key_.erase(std::remove_if(key_.begin(), key_.end(), [](char c) { return !isalpha(c); }),
@@ -22,11 +25,12 @@ void PlayfairCipher::setKey(const std::string &key) {
     // ensures all chars are upper case
     std::transform(key_.begin(), key_.end(), key_.begin(), ::toupper);
 
-    // Converts I to J
+    // Converts J to I
     std::transform(key_.begin(), key_.end(), key_.begin(),
                    [](char c) { return (c == 'J') ? 'I' : c; });
 
     // removes duplicated letters
+    std::string used_letters;
     key_.erase(std::remove_if(key_.begin(), key_.end(),
                               [&used_letters](char c) {
                                   // if the string returns matching values, then add to used and don't erase
