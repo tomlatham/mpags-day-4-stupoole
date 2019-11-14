@@ -21,12 +21,8 @@ TEST_CASE("Playfair Cipher all three types of swapping", "[playfair]"){
     REQUIRE(cc.applyCipher("QIQWQF", CipherMode::Encrypt) == "IFWEIV");
 }
 
-TEST_CASE("Playfair Cipher encryption", "[playfair]") {
-  PlayfairCipher cc{"hello"};
-  REQUIRE( cc.applyCipher("BOBISSOMESORTOFJUNIORCOMPLEXXENOPHONEONEZEROTHING", CipherMode::Encrypt) == "FHIQXLTLKLTLSUFNPQPKETFENIOLVSWLTFIAFTLAKOWATEQOKPPA");
-}
-
-TEST_CASE("Playfair Cipher decryption", "[playfair]") {
-  PlayfairCipher cc{"hello"};
-  REQUIRE( cc.applyCipher("FHIQXLTLKLTLSUFNPQPKETFENIOLVSWLTFIAFTLAKOWATEQOKPPA", CipherMode::Decrypt) == "BOBISXSOMESORTOFIUNIORCOMPLEXQXENOPHONEONEZEROTHINGZ");
+TEST_CASE("Playfair Cipher Decryption", "[playfair]"){
+    PlayfairCipher cc{"qwetyiopsdfhjkzxvbm"};
+    std::string encrypted = cc.applyCipher("HELLOWORLD", CipherMode::Encrypt);
+    REQUIRE(cc.applyCipher(encrypted, CipherMode::Decrypt) == "HELXLOWORLDZ");
 }

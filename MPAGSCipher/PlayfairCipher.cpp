@@ -8,6 +8,9 @@
 #include <algorithm>
 
 #include "PlayfairCipher.hpp"
+#include <iostream>
+#include <string>
+#include <algorithm>
 
 PlayfairCipher::PlayfairCipher(const std::string &key) {
     this->setKey(key);
@@ -73,6 +76,8 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
             if (working_string[i] == 'J') {
                 working_string[i] = 'I';
             }
+
+
             if (working_string[i + 1] == 'J') {
                 working_string[i + 1] = 'I';
             }
@@ -113,20 +118,37 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
 //        std::cout << "input:  " << input_string << "\noutput: " << output_string << std::endl;
 
     } else if (cipherMode == CipherMode::Decrypt) {
-        std::cout << "Decrypt not yet implemented" << std::endl;
-        // TODO:  add decryption to playfair cipher
-        // Looks like you forgot to do this
-    };
+      
+        for (size_t i = 0; i < working_string.length(); i += 2) {
+
+            // extracts x and y coords for input characters in the key
+            auto first_coord = char2Coord_.at(working_string[i]);
+            auto second_coord = char2Coord_.at(working_string[i + 1]);
+            int first_x = first_coord.first;
+            int first_y = first_coord.second;
+            int second_x = second_coord.first;
+            int second_y = second_coord.second;
+
+            // Finds the correct coordinates for the substitution
+            if (first_x == second_x) {
+                first_y = (first_y + 5 - 1) % 5;
+                second_y = (second_y + 5 - 1) % 5;
+            } else if (first_y == second_y) {
+                first_x = (first_x + 5 - 1) % 5;
+                second_x = (second_x + 5 - 1) % 5;
+            } else {
+                std::swap(first_x, second_x);
+            }
+
+            // appends the two substitution characters to output array
+            output_string += coord2Char_.at(std::make_pair(first_x, first_y));
+            output_string += coord2Char_.at(std::make_pair(second_x, second_y));
+        };
+      
+//        std::cout << "input:  " << input_string << "\noutput: " << output_string << std::endl;
+
+    }
+  
     return output_string;
 }
 
-// The following code should split the input text into pairs, loop through the pairs and, if there are repeats,
-// should split the repeats by inserting a X unless it is a repeated x and then should use Q?
-// Next, the loop should find the positions of these two characters in the key and apply the three swapping rules
-// (if same row, pick char to right in map, if same column swap with char below in map, and if not, then form a
-// rectangle with two chars as corners.  swap the characters with the other corners (horizontally?).
-
-
-std::string foo(std::string string) {
-    return string;
-}
