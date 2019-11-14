@@ -6,40 +6,45 @@
 #define MPAGSCIPHER_PLAYFAIRCIPHER_HPP
 
 #include <string>
-#include <vector>
-#include <iostream>
-#include "CipherMode.hpp"
-#include <iterator>
-#include <algorithm>
 #include <map>
 
+#include "CipherMode.hpp"
 
+/**
+ * \file PlayfairCipher.hpp
+ * \brief Contains the declaration of the PlayfairCipher class
+ */
+
+/**
+ * \class PlayfairCipher
+ * \brief Encrypt or decrypt text using the Playfair cipher with the given key
+ */
 class PlayfairCipher {
 public:
     /**
      * \brief This class definition takes a string and generates a key from this
-     * string
-     * \param key is a keys sting equivalent to a 5x5 grid
+     string
+     * \param key is a phrase used to populate a 5x5 grid
      */
     explicit PlayfairCipher(const std::string &key);
 
     /**
      * \brief Applies the cipher to the code with the option
-     * \param input_string is the string to be encrypted
-     * \return
+     * \param inputString is the string to be encrypted
+     * \param cipherMode whether to encrypt or decrypt the input text
+     * \return the result of applying the cipher to the input text
      */
-    std::string applyCipher(const std::string &input_string, CipherMode cipherMode) const;
+    std::string applyCipher(const std::string &inputString, const CipherMode cipherMode) const;
 
 private:
     /**
-   * \brief
-   * \param key
-   * \returns returns 5x5 key grid
+   * \brief Set the key to be used for the encryption/decryption
+   * \param key the key to use in the cipher
    */
     void setKey(const std::string &key);
 
     /**
-     * \brief Alphabet as a vector of chars for use in generating the key. Note that the J is missing.
+     * \brief Alphabet as a string for use in generating the key
      */
     const std::string alphabet_ = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     /*

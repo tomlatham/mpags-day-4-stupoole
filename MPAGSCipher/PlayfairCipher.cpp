@@ -2,18 +2,21 @@
 // Created by stu on 08/11/2019.
 //
 
+#include <iostream>
+#include <map>
+#include <string>
+#include <algorithm>
 
 #include "PlayfairCipher.hpp"
 
 PlayfairCipher::PlayfairCipher(const std::string &key) {
-    PlayfairCipher::setKey(key);
+    this->setKey(key);
 }
 
 
 void PlayfairCipher::setKey(const std::string &key) {
     // std::string string = key + alphabet_;
     key_ = key + alphabet_;
-    std::string used_letters;
 
     // Removes non alpha characters
     key_.erase(std::remove_if(key_.begin(), key_.end(), [](char c) { return !isalpha(c); }),
@@ -22,11 +25,12 @@ void PlayfairCipher::setKey(const std::string &key) {
     // ensures all chars are upper case
     std::transform(key_.begin(), key_.end(), key_.begin(), ::toupper);
 
-    // Converts I to J
+    // Converts J to I
     std::transform(key_.begin(), key_.end(), key_.begin(),
                    [](char c) { return (c == 'J') ? 'I' : c; });
 
     // removes duplicated letters
+    std::string used_letters;
     key_.erase(std::remove_if(key_.begin(), key_.end(),
                               [&used_letters](char c) {
                                   // if the string returns matching values, then add to used and don't erase
@@ -68,7 +72,8 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
             // Swaps J for I before checking for duplicates
             if (working_string[i] == 'J') {
                 working_string[i] = 'I';
-            } else if (working_string[i + 1] == 'J') {
+            }
+            if (working_string[i + 1] == 'J') {
                 working_string[i + 1] = 'I';
             }
 
@@ -110,6 +115,7 @@ std::string PlayfairCipher::applyCipher(const std::string &input_string, const C
     } else if (cipherMode == CipherMode::Decrypt) {
         std::cout << "Decrypt not yet implemented" << std::endl;
         // TODO:  add decryption to playfair cipher
+        // Looks like you forgot to do this
     };
     return output_string;
 }
