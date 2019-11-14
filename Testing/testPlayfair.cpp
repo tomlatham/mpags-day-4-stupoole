@@ -20,3 +20,9 @@ TEST_CASE("Playfair Cipher all three types of swapping", "[playfair]"){
     PlayfairCipher cc{"qwetyiopsdfhjkzxvbm"};
     REQUIRE(cc.applyCipher("QIQWQF", CipherMode::Encrypt) == "IFWEIV");
 }
+
+TEST_CASE("Playfair Cipher Decryption", "[playfair]"){
+    PlayfairCipher cc{"qwetyiopsdfhjkzxvbm"};
+    std::string encrypted = cc.applyCipher("HELLOWORLD", CipherMode::Encrypt);
+    REQUIRE(cc.applyCipher(encrypted, CipherMode::Decrypt) == "HELXLOWORLDZ");
+}
